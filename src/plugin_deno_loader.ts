@@ -122,6 +122,15 @@ export function denoLoaderPlugin(
         }
       });
 
+      async function onResolveNode(
+        args: esbuild.OnResolveArgs,
+      ): Promise<esbuild.OnResolveResult | null | undefined> {
+        return {
+          path: `${args.namespace}:${args.path}`,
+          external: true,
+        };
+      }
+
       async function onResolve(
         args: esbuild.OnResolveArgs,
       ): Promise<esbuild.OnResolveResult | null | undefined> {
@@ -142,6 +151,7 @@ export function denoLoaderPlugin(
       build.onResolve({ filter: /.*/, namespace: "http" }, onResolve);
       build.onResolve({ filter: /.*/, namespace: "https" }, onResolve);
       build.onResolve({ filter: /.*/, namespace: "data" }, onResolve);
+      build.onResolve({ filter: /.*/, namespace: "node" }, onResolveNode);
 
       function onLoad(
         args: esbuild.OnLoadArgs,

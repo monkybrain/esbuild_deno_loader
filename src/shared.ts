@@ -6,7 +6,11 @@ export interface Loader {
   loadEsm(specifier: URL): Promise<esbuild.OnLoadResult>;
 }
 
-export type LoaderResolution = LoaderResolutionEsm;
+export type LoaderResolution = LoaderResolutionEsm | LoaderResolutionNode;
+
+export interface LoaderResolutionNode {
+  kind: "node";
+}
 
 export interface LoaderResolutionEsm {
   kind: "esm";

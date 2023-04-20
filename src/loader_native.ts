@@ -23,7 +23,9 @@ export class NativeLoader implements Loader {
     const entry = await this.#infoCache.get(specifier.href);
     if ("error" in entry) throw new Error(entry.error);
 
-    if (entry.kind === "npm" || entry.kind === "node") {
+    if (entry.kind === "node") return entry;
+
+    if (entry.kind === "npm") {
       throw new Error("Unsupported module kind: " + entry.kind);
     }
 
